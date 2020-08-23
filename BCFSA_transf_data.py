@@ -18,23 +18,6 @@ def transformed_data():
 
 
 
-
-### Remove redundant columns
-
-	df=df.dropna()
-
-
-	for col in df.columns:
-		if len(df[col].unique())==1:
-			df.drop(col,inplace=True,axis=1)
-
-	df.drop(['ADDRESS', 'COMM_NAME', 'location'],inplace=True,axis=1)
-
-
-
-
-
-
 ### Normalise absolute value of crime variables and income recipients by the respective population 
 
 	for col in ['saf1','saf2','saf3','saf4','saf5','saf6','saf7','saf8','inc2']:
