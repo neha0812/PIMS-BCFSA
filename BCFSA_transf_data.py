@@ -53,6 +53,18 @@ def transformed_data():
 
 	for x in vacdict:
 		df['vacancy_rate'] = np.where(df['COMM_CODE']==x, vacdict[x],df['vacancy_rate'])
+		## I have added the code for addding the walk,transit, bike score and community population
+        url = 'https://raw.githubusercontent.com/neha0812/BCFFSA-project/master/walk_score.csv'
+        df3 = pd.read_csv(url, error_bad_lines=False)
+# making the entries of both the csv files in lowercase for mapping purpose.
+        df = df.apply(lambda x: x.str.lower() if x.dtype == "object" else x)  
+        df3 = df3.apply(lambda x: x.str.lower() if x.dtype == "object" else x)  
+        df3 = df3.set_index('Name')
+#Adding walk score, bike score, transit score and population for different community in calgary
+        df['walk_score_comm'] = df['COMM_NAME'].map(df3['Walk Score'])
+        df['transit_score_comm'] = df['COMM_NAME'].map(df3['Transit Score'])
+        df['bike_score_comm'] = df['COMM_NAME'].map(df3['Bike Score'])
+        df['comm_polulation'] = df['COMM_NAME'].map(df3['Population'])    
 	return df
 
 
